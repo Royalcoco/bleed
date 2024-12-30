@@ -1,0 +1,38 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def divide_circle(radius, levels):
+    """
+    Divides a circle into fractal segments based on the number of levels.
+    Parameters:
+        radius (float): Radius of the circle.
+        levels (int): Number of fractal levels for division.
+    Returns:
+        segments (list): Angles of division for each level.
+    """
+    theta = [2 * np.pi / (2**i) for i in range(1, levels + 1)]
+    return theta
+
+def plot_circle(radius, levels):
+    """
+    Plots a circle divided into fractal segments.
+    Parameters:
+        radius (float): Radius of the circle.
+        levels (int): Number of fractal levels for division.
+    """
+    angles = divide_circle(radius, levels)
+    fig, ax = plt.subplots()
+    theta = np.linspace(0, 2 * np.pi, 1000)
+    x = radius * np.cos(theta)
+    y = radius * np.sin(theta)
+    ax.plot(x, y, label="Circle")
+    
+    # Add fractal divisions
+    for angle in angles:
+        for i in range(int(2 * np.pi / angle)):
+            ax.plot([0, radius * np.cos(i * angle)], [0, radius * np.sin(i * angle)], 'r--')
+    ax.set_aspect('equal')
+    plt.show()
+
+# Example usage
+plot_circle(radius=1, levels=3)
